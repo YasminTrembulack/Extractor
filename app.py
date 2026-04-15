@@ -100,14 +100,3 @@ async def delete_documents(
 async def health_check():
     """Endpoint para verificar se a API está funcionando."""
     return {"status": "healthy", "message": "API está funcionando corretamente"}
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(
-        "app:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=False,
-    )
