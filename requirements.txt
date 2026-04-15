@@ -1,0 +1,14 @@
+fastapi
+langchain
+langchain-community
+langchain-huggingface
+langchain-text-splitters
+openai
+pdfplumber
+pinecone
+pypdf
+python-docx
+python-dotenv
+python-multipart
+sentence-transformers
+uvicorn
