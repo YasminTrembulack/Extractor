@@ -111,9 +111,12 @@ async def root():
 if __name__ == "__main__":
     import uvicorn
 
+    port = int(os.getenv("PORT", 8080))
+    must_reload = os.environ.get("ENV", "production") == "development"
+
     uvicorn.run(
         "app:app",
         host="0.0.0.0",
-        port=os.environ.get("PORT", 8000),
-        reload=os.environ.get("ENV", "production") == "development",
+        port=port,
+        reload=must_reload,
     )
