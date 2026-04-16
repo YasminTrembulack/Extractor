@@ -1,3 +1,4 @@
+import os
 import logging
 from fastapi import Depends, FastAPI, Form, HTTPException, UploadFile
 
@@ -100,3 +101,19 @@ async def delete_documents(
 async def health_check():
     """Endpoint para verificar se a API está funcionando."""
     return {"status": "healthy", "message": "API está funcionando corretamente"}
+
+
+@app.get("/")
+async def root():
+    return {"message": "Bem-vindo à API do Document Extractor!"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(
+        "app:app",
+        host="0.0.0.0",
+        port=os.environ.get("PORT", 8000),
+        reload=os.environ.get("ENV", "production") == "development",
+    )
