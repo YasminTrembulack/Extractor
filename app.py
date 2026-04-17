@@ -78,12 +78,16 @@ async def delete_documents(
 
         document_service = DocumentService()
 
-        document_service.delete_vectors_by_ids(request.ids)
+        v_deleted = document_service.delete_vectors_by_ids(request.ids)
+
+        message = f"Deletados com sucesso {v_deleted} vetore(s) correspondente(s) a {len(request.ids)} documento(s)."
+
+        logger.info(f"Delete concluído: {message}")
 
         return {
             "status": "ok",
-            "deleted_count": len(request.ids),
-            "message": f"Deletados com sucesso {len(request.ids)} vetore(s) correspondente(s) a {len(request.ids)} documento(s).",
+            "deleted_count": v_deleted,
+            "message": message,
         }
     except HTTPException:
         raise
