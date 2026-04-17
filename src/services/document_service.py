@@ -43,10 +43,22 @@ class DocumentService:
     def delete_vectors_by_ids(self, ids: list[str]) -> None:
         logger.info(f"Initializing deletion of {len(ids)} document(s).")
 
+        total_deleted = 0
         for doc_id in ids:
-            self.repository.delete_vectors_by_metadata_field(doc_id, "id")
+            exists = self.repository.get_vector_by_id(f"{doc_id}_0")
+            if exists:
+                total_deleted += 1
+                if exists.metadata and "total_chunks" in exists.metadata:
+                    total_chunks = exists.metadata["total_chunks"]
+                    chunk_ids = [f"{doc_id}_{i}" for i in range(total_chunks)]
+                else:
+                    chunk_ids = [f"{doc_id}_0"]
 
-        logger.info(f"Deletion completed: {len(ids)} vectors deleted")
+                for chunk_id in chunk_ids:
+
+                    self.repository.delete_vectors_by_id(chunk_id)
+
+        logger.info(f"Deletion completed: {total_deleted} vectors deleted")
 
     def _cleanup_extra_chunks(self, new_total_chunks: int, id: str) -> None:
         """Remove chunks that are no longer needed when a document is updated with fewer chunks."""
